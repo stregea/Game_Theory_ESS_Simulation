@@ -4,7 +4,7 @@ import random
 from Animal import Animal
 from Hawk import Hawk
 from Dove import Dove
-
+from sort import mergesort
 
 def menu():
     return """
@@ -52,6 +52,16 @@ def display_individuals_and_points(individuals: list[Animal]):
         if individuals[i].is_alive():
             living_count += 1
     print(f"Living: {living_count}")
+
+
+def display_sorted_individuals(individuals: list[Animal]):
+    """
+    Display a sorted list of individuals based on their resource amount.
+    :param individuals: The list of individuals.
+    """
+    tmp = mergesort(orig_list=individuals, n=len(individuals))
+    for animal in tmp:
+        print(f"{animal}:{animal.resource_amount}")
 
 
 def interaction(individuals: list[Animal], resource_amount: int, cost_of_hawk_hawk: int, number_of_encounters: int):
@@ -182,7 +192,7 @@ def main():
         elif result == "2":
             display_individuals_and_points(animals)
         elif result == "3":
-            print("Not yet implemented")
+            display_sorted_individuals(animals)
         elif result == "4":
             count = 0
             while count < 1000:
