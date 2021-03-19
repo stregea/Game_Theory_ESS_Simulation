@@ -14,7 +14,7 @@ def menu():
 3 ) Display Sorted - TODO
 4 ) Have 1000 interactions
 5 ) Have 10000 interactions
-6 ) Have N interactions - TODO
+6 ) Have N interactions
 7 ) Step through interactions "Stop" to return to menu - TODO
 8 ) Quit
 ================================
@@ -196,9 +196,20 @@ def main():
                 encounters += 1
                 count += 1
         elif result == "6":
-            print("Not yet implemented")
+            interactions = int(input("Enter number of interactions > "))
+            count = 0
+            while count < interactions:
+                interaction(animals, args.resourceAmt, args.costHawk_Hawk, encounters)
+                encounters += 1
+                count += 1
         elif result == "7":
-            print("Not yet implemented")
+            flag = True
+            while flag:
+                interaction(animals, args.resourceAmt, args.costHawk_Hawk, encounters)
+                encounters += 1
+                step = input()
+                if step.lower() == "stop":
+                    flag = False
         elif result == "8":
             running = False
         else:
