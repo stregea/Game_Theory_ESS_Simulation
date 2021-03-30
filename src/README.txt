@@ -4,10 +4,11 @@ To run: python3 simulation.py popSize [percentHawks] [resourceAmt] [costHawk_Haw
 
 This project was written in python, and the reason I chose python was mostly due to preference over Java.
 
-From what I can observe from the simulations, if there are more doves in the total population than hawks, more hawks
-will end up surviving the simulation, otherwise the simulation will come to an end with all hawks dying, or one remains.
-This shows that in order for an ecosystem to survive and thrive, we need to have multiple species, rather than one massive population
+From what I can observe from the simulations, if there are more doves in the total population than hawks, potentially 2 or more hawks
+will end up surviving the simulation, otherwise if we change the parameters to have more hawks than doves, the simulation will come to an end with all hawks dying,
+or due to one hawk remaining. This shows that in order for an ecosystem to survive and thrive, we need to have multiple species, rather than one massive population
 of one type of animal.
+
 In this particular simulation, an ESS occurs during which two animals are selected. The simulation then checks to see if the matching is
 Dove/Dove, Dove/Hawk, or Hawk/Hawk and handles the distribution of the resources dependent upon the match up.
 
