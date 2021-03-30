@@ -1,4 +1,5 @@
 from Animal import Animal
+from typing import List
 
 
 def merge(l1, l2):
@@ -34,7 +35,7 @@ def merge(l1, l2):
     return tmp
 
 
-def mergesort(orig_list: list[Animal], n):
+def mergesort(orig_list: List[Animal], n):
     """
     Perform mergesort on an unsorted list. Runtime: O(nlogn).
     :param orig_list: The original list

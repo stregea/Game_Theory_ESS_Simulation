@@ -47,7 +47,7 @@ def display_starting_stats(population_size: int,
     print(f"Cost of Hawk-Hawk interaction: {hawk_hawk_interaction}")
 
 
-def display_individuals_and_points(individuals: list[Animal]):
+def display_individuals_and_points(individuals: List[Animal]):
     """
     Display each of the individuals and their resources.
     :param individuals: The list of individuals.
@@ -60,7 +60,7 @@ def display_individuals_and_points(individuals: list[Animal]):
     print(f"Living: {living_count}")
 
 
-def display_sorted_individuals(individuals: list[Animal]):
+def display_sorted_individuals(individuals: List[Animal]):
     """
     Display a sorted list of individuals based on their resource amount.
     :param individuals: The list of individuals.
@@ -70,7 +70,7 @@ def display_sorted_individuals(individuals: list[Animal]):
         print(f"{animal}:{animal.resource_amount}")
 
 
-def interaction(individuals: list[Animal], resource_amount: int, cost_of_hawk_hawk: int, number_of_encounters: int):
+def interaction(individuals: List[Animal], resource_amount: int, cost_of_hawk_hawk: int, number_of_encounters: int):
     """
     Perform an interation between two random individuals.
     :param individuals: The list of individuals.
@@ -99,8 +99,10 @@ def interaction(individuals: list[Animal], resource_amount: int, cost_of_hawk_ha
         # split the resource
         individuals[animal1].add_resource(resource_amount // 2)
         individuals[animal2].add_resource(resource_amount // 2)
-        print(f"{individuals[animal1]}/{individuals[animal2]}: {individuals[animal1]}: +{resource_amount // 2}\t{individuals[animal2]}: +{resource_amount // 2}") # this is printed below
-        print(f"Individual {animal1}={individuals[animal1].resource_amount}\tIndividual {animal2}={individuals[animal2].resource_amount}")
+        print(
+            f"{individuals[animal1]}/{individuals[animal2]}: {individuals[animal1]}: +{resource_amount // 2}\t{individuals[animal2]}: +{resource_amount // 2}")  # this is printed below
+        print(
+            f"Individual {animal1}={individuals[animal1].resource_amount}\tIndividual {animal2}={individuals[animal2].resource_amount}")
 
     # if both are hawks, the first hawk takes the resource, and both bear the hawk-hawk encounter cost
     elif individuals[animal1].is_hawk() and individuals[animal2].is_hawk():
@@ -111,8 +113,10 @@ def interaction(individuals: list[Animal], resource_amount: int, cost_of_hawk_ha
         individuals[animal2].remove_resource(cost_of_hawk_hawk)
 
         char = "+" if resource_amount - cost_of_hawk_hawk >= 0 else ""
-        print(f"{individuals[animal1]}/{individuals[animal2]}: {individuals[animal1]}: {char}{resource_amount - cost_of_hawk_hawk}\t{individuals[animal2]}: -{cost_of_hawk_hawk}") # this is printed below
-        print(f"Individual {animal1}={individuals[animal1].resource_amount}\tIndividual {animal2}={individuals[animal2].resource_amount}")
+        print(
+            f"{individuals[animal1]}/{individuals[animal2]}: {individuals[animal1]}: {char}{resource_amount - cost_of_hawk_hawk}\t{individuals[animal2]}: -{cost_of_hawk_hawk}")  # this is printed below
+        print(
+            f"Individual {animal1}={individuals[animal1].resource_amount}\tIndividual {animal2}={individuals[animal2].resource_amount}")
 
         # if resources are depleted ( < 0 ), the hawk has died
         if individuals[animal1].resource_amount < 0:
@@ -123,32 +127,37 @@ def interaction(individuals: list[Animal], resource_amount: int, cost_of_hawk_ha
             print(f"Hawk {individuals[animal2].animal_id} has died!")
 
     # if hawk or dove, the hawk takes the resource, and the dove remains unharmed
-    elif (individuals[animal1].is_dove() and individuals[animal2].is_hawk()) or (individuals[animal1].is_hawk() and individuals[animal2].is_dove()):
+    elif (individuals[animal1].is_dove() and individuals[animal2].is_hawk()) or (
+            individuals[animal1].is_hawk() and individuals[animal2].is_dove()):
 
         # Hawk / Dove
         if individuals[animal1].is_hawk() and individuals[animal1].is_alive():
             individuals[animal1].add_resource(resource_amount)
-            print(f"{individuals[animal1]}/{individuals[animal2]}: {individuals[animal1]}: +{resource_amount}\t{individuals[animal2]}: +{0}")
-            print(f"Individual {animal1}={individuals[animal1].resource_amount}\tIndividual {animal2}={individuals[animal2].resource_amount}")
+            print(
+                f"{individuals[animal1]}/{individuals[animal2]}: {individuals[animal1]}: +{resource_amount}\t{individuals[animal2]}: +{0}")
+            print(
+                f"Individual {animal1}={individuals[animal1].resource_amount}\tIndividual {animal2}={individuals[animal2].resource_amount}")
 
         # Dove / Hawk
         elif individuals[animal2].is_hawk() and individuals[animal2].is_alive():
             individuals[animal2].add_resource(resource_amount)
-            print(f"{individuals[animal1]}/{individuals[animal2]}: {individuals[animal1]}: +{0}\t{individuals[animal2]}: +{resource_amount}")
-            print(f"Individual {animal1}={individuals[animal1].resource_amount}\tIndividual {animal2}={individuals[animal2].resource_amount}")
+            print(
+                f"{individuals[animal1]}/{individuals[animal2]}: {individuals[animal1]}: +{0}\t{individuals[animal2]}: +{resource_amount}")
+            print(
+                f"Individual {animal1}={individuals[animal1].resource_amount}\tIndividual {animal2}={individuals[animal2].resource_amount}")
     print("")
 
 
-def can_continue_simulation(animals: List[Animal], population_count: int):
+def can_continue_simulation(individuals: List[Animal], population_count: int):
     """
     Determine if the simulation can continue by checking the number of living members within a population.
-    :param animals:
-    :param population_count:
+    :param individuals: The list of individuals.
+    :param population_count: The total population size.
     :return: True if the dead count of a population != 0 or 1. False otherwise.
     """
     dead_count = 0
 
-    for animal in animals:
+    for animal in individuals:
         if animal.is_dead():
             dead_count += 1
 
@@ -156,21 +165,76 @@ def can_continue_simulation(animals: List[Animal], population_count: int):
     return not (dead_count == population_count or dead_count == (population_count - 1))
 
 
-def get_individual_count(animals: List[Animal], animal_type: str):
+def get_individual_count(individuals: List[Animal], animal_type: str):
+    """
+    Get the number of the specified animal type that currently exists in the list of animals.
+    :param individuals: The list of individuals.
+    :param animal_type: The type of animal to count.
+    :return: The total count of the specified animal that exists within the list of animals.
+    """
     count = 0
 
-    for animal in animals:
+    for animal in individuals:
         if animal.is_alive() and animal.animal_type == animal_type:
             count += 1
 
     return count
 
 
-def end_simulation_message(animals: List[Animal], animal_type: str):
-    count = get_individual_count(animals, animal_type)
+def end_simulation_message(individuals: List[Animal], animal_type: str):
+    """
+    Print out the message to be displayed at the end of the simulation (if it ends abruptly).
+    :param individuals: The list of individuals.
+    :param animal_type: The type of animal to count.
+    """
+    count = get_individual_count(individuals, animal_type)
     word = "is" if count == 1 else "are"
     appended_char = "" if count == 1 else "s"
     print(f"There {word} {count} hawk{appended_char} remaining and the simulation cannot continue. Ending Simulation.")
+
+
+def simulate(individuals: List[Animal], hawk_counter: int, resource_amount: int, cost_hawk_hawk: int, encounters: int):
+    """
+    Perform a simulation of interactions.
+    :param individuals: The list of individuals.
+    :param hawk_counter: The number of hawks that exist within the simulation.
+    :param resource_amount: The value of each resource that the individuals in the population will be competing for during each encounter.
+    :param cost_hawk_hawk: The loss of resources (or time) in the simulation that penalizes an excessive number of Hawk-Hawk encounters.
+    :param encounters: The total number of encounters.
+    :return: -1 if the simulation ends abruptly, 0 if can continue simulation.
+    """
+    if can_continue_simulation(individuals, hawk_counter):
+        interaction(individuals, resource_amount, cost_hawk_hawk, encounters)
+
+        # check to see if the simulation can continue, if not, end the simulation.
+        if not can_continue_simulation(individuals, hawk_counter):
+            end_simulation_message(individuals, "Hawk")
+            return -1
+    else:
+        end_simulation_message(individuals, "Hawk")
+        return -1
+
+    return 0
+
+
+def run_simulation(iterations: int, individuals: List[Animal], hawk_counter: int, resource_amount: int,
+                   cost_hawk_hawk: int, encounters: int):
+    """
+    Perform a simulation of a specified number of interactions.
+    :param iterations: The number of iterations to perform.
+    :param individuals: The list of individuals.
+    :param hawk_counter: The number of hawks that exist within the simulation.
+    :param resource_amount: The value of each resource that the individuals in the population will be competing for during each encounter.
+    :param cost_hawk_hawk: The loss of resources (or time) in the simulation that penalizes an excessive number of Hawk-Hawk encounters.
+    :param encounters: The total number of encounters.
+    :return: -1 if the simulation ends abruptly, 0 if can continue simulation.
+    """
+    tmp_encounters = encounters
+    for i in range(0, iterations):
+        if simulate(individuals, hawk_counter, resource_amount, cost_hawk_hawk, tmp_encounters) == -1:
+            return -1
+        tmp_encounters += 1
+    return 0
 
 
 def main():
@@ -214,7 +278,7 @@ def main():
     animal_counter = 0
     hawk_counter = 0
     dove_counter = 0
-    encounters = 0
+    encounters = 1
 
     # while the array isn't fully populated
     # populate the list based on an even or odd roll
@@ -239,58 +303,46 @@ def main():
     while running:
         result = input(menu() + "> ")
 
-        if result == "1":
+        if result == "1":  # display the starting statistics for the simulation.
             display_starting_stats(args.popSize, round(hawk_percentage), args.resourceAmt, args.costHawk_Hawk)
-        elif result == "2":
+
+        elif result == "2":  # this option displays all of the individuals and their resource points.
             display_individuals_and_points(animals)
-        elif result == "3":
+
+        elif result == "3":  # this option displays the list of individuals in a sorted fashion.
             display_sorted_individuals(animals)
-        elif result == "4":
-            count = 0
-            while count < 1000:
-                if can_continue_simulation(animals, hawk_counter):
-                    interaction(animals, args.resourceAmt, args.costHawk_Hawk, encounters)
-                    encounters += 1
-                    count += 1
-                else:
-                    end_simulation_message(animals, "Hawk")
-                    return
-        elif result == "5":
-            count = 0
-            while count < 10000:
-                if can_continue_simulation(animals, hawk_counter):
-                    interaction(animals, args.resourceAmt, args.costHawk_Hawk, encounters)
-                    encounters += 1
-                    count += 1
-                else:
-                    end_simulation_message(animals, "Hawk")
-                    return
-        elif result == "6":
+
+        elif result == "4":  # this option allows the simulation to loop 1000 times.
+            if run_simulation(1000, animals, hawk_counter, args.resourceAmt, args.costHawk_Hawk, encounters) == -1:
+                return
+            encounters += 1000
+
+        elif result == "5":  # this option allows the simulation to loop 10000 times.
+            if run_simulation(10000, animals, hawk_counter, args.resourceAmt, args.costHawk_Hawk, encounters) == -1:
+                return
+            encounters += 10000
+
+        elif result == "6":  # this option allows the simulation to loop 'N' amount of times.
             interactions = int(input("Enter number of interactions > "))
-            count = 0
-            while count < interactions:
-                if can_continue_simulation(animals, hawk_counter):
-                    interaction(animals, args.resourceAmt, args.costHawk_Hawk, encounters)
-                    encounters += 1
-                    count += 1
-                else:
-                    end_simulation_message(animals, "Hawk")
-                    return
-        elif result == "7":
+            if run_simulation(interactions, animals, hawk_counter, args.resourceAmt, args.costHawk_Hawk,
+                              encounters) == -1:
+                return
+            encounters += interactions
+
+        elif result == "7":  # this option allows for a step-through approach in the simulation.
             flag = True
             while flag:
-                if can_continue_simulation(animals, hawk_counter):
-                    interaction(animals, args.resourceAmt, args.costHawk_Hawk, encounters)
-                    encounters += 1
-                    step = input()
-                    if step.lower() == "stop":
-                        flag = False
-                else:
-                    end_simulation_message(animals, "Hawk")
+                if simulate(animals, hawk_counter, args.resourceAmt, args.costHawk_Hawk, encounters) == -1:
                     return
+                encounters += 1
 
-        elif result == "8":
+                step = input()
+                if step.lower() == "stop":
+                    flag = False
+
+        elif result == "8":  # end the simulation.
             running = False
+
         else:
             print("Invalid command")
 
